@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Academics | T-HUB Parent Portal</title>
+    <link rel="stylesheet" href="/css/parent-portal.css" />
+    <link rel="stylesheet" href="/css/utils.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#2563eb" />
+    <link rel="stylesheet" href="/css/app-visuals.css" />
+  </head>
+  <body class="parent-portal parent-auth-checking">
+    <div class="parent-auth-loading" role="status" aria-live="polite">
+      <div class="parent-auth-loading__content">
+        <span class="parent-auth-spinner" aria-hidden="true"></span>
+        <p>Loading academics…</p>
+      </div>
+    </div>
+    <main class="parent-main parent-academics-main">
+      <a class="parent-back-link" href="parent-dashboard.html">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to dashboard
+      </a>
+      <section class="parent-academics-heading" aria-labelledby="academicsTitle">
+        <p class="parent-badges">STUDENT RECORDS</p>
+        <h1 id="academicsTitle">Academics</h1>
+        <p>Choose a record to view for your selected student.</p>
+      </section>
+      <section id="academicsStudentSummary" class="record-student-heading" aria-live="polite">
+        <span class="parent-student-avatar-shell parent-student-avatar-large" aria-hidden="true">
+          <img id="academicsStudentPhoto" class="parent-student-avatar" alt="" hidden />
+          <span id="academicsStudentInitials" class="parent-student-avatar-initials">S</span>
+        </span>
+        <div>
+          <h2 id="academicsStudentName">Loading student…</h2>
+          <p id="academicsStudentDetails">Checking your secure student selection…</p>
+        </div>
+      </section>
+      <section id="academicsRecordCards" class="parent-academics-cards" aria-label="Student academic records">
+        <a class="parent-record-link" href="parent-records.html?view=fees">
+          <i class="fa-solid fa-wallet" aria-hidden="true"></i>
+          <span><strong>Fees & payments</strong><small>View balances and payment history</small></span>
+          <i class="fa-solid fa-chevron-right parent-link-chevron" aria-hidden="true"></i>
+        </a>
+        <a class="parent-record-link" href="parent-records.html?view=attendance">
+          <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+          <span><strong>Attendance</strong><small>Review attendance records</small></span>
+          <i class="fa-solid fa-chevron-right parent-link-chevron" aria-hidden="true"></i>
+        </a>
+        <a class="parent-record-link" href="parent-records.html?view=timetable">
+          <i class="fa-solid fa-calendar-days" aria-hidden="true"></i>
+          <span><strong>Class timetable</strong><small>See the weekly class schedule</small></span>
+          <i class="fa-solid fa-chevron-right parent-link-chevron" aria-hidden="true"></i>
+        </a>
+        <a class="parent-record-link" href="parent-records.html?view=grades">
+          <i class="fa-solid fa-chart-column" aria-hidden="true"></i>
+          <span><strong>Grades</strong><small>View assessment results</small></span>
+          <i class="fa-solid fa-chevron-right parent-link-chevron" aria-hidden="true"></i>
+        </a>
+      </section>
+      <p id="academicsEmptyState" class="parent-academics-empty" hidden>
+        No student is selected yet. <a href="parent-dashboard.html">Choose a student from your dashboard.</a>
+      </p>
+    </main>
+    
+    <nav class="parent-bottom-nav" aria-label="Parent portal navigation">
+      <a href="parent-dashboard.html"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Dashboard</span></a>
+      <a class="is-active" href="parent-academics.html" aria-current="page"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Academics</span></a>
+      <a href="parent-settings.html"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span></a>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1"></script>
+    <script src="/js/supabase.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/parent-portal.js"></script>
+    <script src="/js/parent-academics.js"></script>
+    <script src="/js/app-icons.js"></script>
+  </body>
+</html>

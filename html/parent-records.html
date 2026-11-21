@@ -39,19 +39,9 @@
     <link rel="stylesheet" href="/css/app-visuals.css" />
   </head>
   <body class="parent-portal">
-    <header class="parent-topbar">
-      <a class="parent-brand" href="parent-dashboard.html" aria-label="T-HUB Parent Portal home">
-        <img src="/icons/app-icon-192.png" alt="" />
-        <span>T-HUB <small>Parent Portal</small></span>
-      </a>
-      <button id="parentSignOut" class="parent-signout" type="button">
-        <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
-        Sign out
-      </button>
-    </header>
     <main class="parent-main parent-records-main">
       <section class="parent-welcome">
-        <a class="parent-back-link" href="parent-dashboard.html"
+        <a class="parent-back-link" href="parent-academics.html"
           ><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>Back</a
         >
         <p class="parent-badges">Selected student</p>
@@ -160,58 +150,16 @@
         </div>
       </section>
     </main>
-    <dialog
-      id="parentSignOutDialog"
-      class="parent-signout-dialog"
-      aria-labelledby="parentSignOutTitle"
-      aria-describedby="parentSignOutDescription"
-    >
-      <div class="parent-signout-dialog-content">
-        <span class="parent-signout-dialog-icon" aria-hidden="true">
-          <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        </span>
-        <h2 id="parentSignOutTitle">Sign out?</h2>
-        <p id="parentSignOutDescription">
-          Are you sure you want to sign out of the Family Portal?
-        </p>
-        <p
-          id="parentSignOutMessage"
-          class="parent-signout-dialog-message"
-          aria-live="polite"
-        ></p>
-        <div class="parent-signout-dialog-actions">
-          <button
-            id="cancelParentSignOut"
-            class="parent-signout-cancel"
-            type="button"
-          >
-            Cancel
-          </button>
-          <button
-            id="confirmParentSignOut"
-            class="parent-signout-confirm"
-            type="button"
-          >
-            Sign out
-          </button>
-        </div>
-      </div>
-    </dialog>
+
     <nav class="parent-bottom-nav" aria-label="Parent portal navigation">
       <a href="parent-dashboard.html">
         <i class="fa-solid fa-house" aria-hidden="true"></i><span>Dashboard</span>
       </a>
-      <a href="parent-records.html?view=attendance" data-parent-nav="academics">
+      <a href="parent-academics.html" data-parent-nav="academics">
         <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Academics</span>
       </a>
-      <a href="parent-records.html?view=fees" data-parent-nav="fees">
-        <i class="fa-solid fa-wallet" aria-hidden="true"></i><span>Fees</span>
-      </a>
-      <a href="parent-dashboard.html#studentAnnouncementsSection">
-        <i class="fa-solid fa-bell" aria-hidden="true"></i><span>Updates</span>
-      </a>
-      <a href="my-profile.html?from=parent">
-        <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Profile</span>
+      <a href="parent-settings.html">
+        <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span>
       </a>
     </nav>
     <script

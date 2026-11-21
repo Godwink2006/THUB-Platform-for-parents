@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings | T-HUB Parent Portal</title>
+    <link rel="stylesheet" href="/css/parent-portal.css" />
+    <link rel="stylesheet" href="/css/utils.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#2563eb" />
+    <link rel="stylesheet" href="/css/app-visuals.css" />
+  </head>
+  <body class="parent-portal parent-auth-checking">
+    <div class="parent-auth-loading" role="status" aria-live="polite">
+      <div class="parent-auth-loading__content">
+        <span class="parent-auth-spinner" aria-hidden="true"></span>
+        <p>Loading settings…</p>
+      </div>
+    </div>
+    <main class="parent-main parent-settings-main">
+      <a class="parent-back-link" href="parent-dashboard.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to dashboard</a>
+      <section class="parent-settings-heading">
+        <p class="parent-badges">PREFERENCES</p>
+        <h1>Settings</h1>
+        <p>Manage your account and this device.</p>
+      </section>
+      <section class="parent-settings-list" aria-label="Parent settings">
+        <a class="parent-setting-row" href="my-profile.html?from=parent">
+          <span class="parent-setting-icon"><i class="fa-solid fa-user-pen" aria-hidden="true"></i></span>
+          <span class="parent-setting-copy"><strong>Profile</strong><small>Update your account information</small></span>
+          <i class="fa-solid fa-chevron-right parent-setting-chevron" aria-hidden="true"></i>
+        </a>
+        <div class="parent-setting-row parent-setting-notifications">
+          <span class="parent-setting-icon"><i class="fa-solid fa-bell" aria-hidden="true"></i></span>
+          <span class="parent-setting-copy"><strong>Notifications</strong><small id="parentPushStatus" aria-live="polite">Checking this device…</small></span>
+          <button id="parentPushToggle" class="parent-push-toggle" type="button">Enable</button>
+        </div>
+        <div class="parent-setting-row parent-setting-theme">
+          <span class="parent-setting-icon"><i class="fa-solid fa-moon" aria-hidden="true"></i></span>
+          <span class="parent-setting-copy"><strong>Dark theme</strong><small>Change the appearance of the portal</small></span>
+          <button id="dashboardThemeToggle" type="button" aria-pressed="false" aria-label="Switch to dark mode">
+            <i class="fa-solid fa-moon" aria-hidden="true"></i><span>Dark mode</span>
+          </button>
+        </div>
+        <button id="parentSignOut" class="parent-setting-row parent-setting-signout" type="button">
+          <span class="parent-setting-icon"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i></span>
+          <span class="parent-setting-copy"><strong>Sign out</strong><small>Sign out of your parent account</small></span>
+          <i class="fa-solid fa-chevron-right parent-setting-chevron" aria-hidden="true"></i>
+        </button>
+      </section>
+    </main>
+    <dialog id="parentSignOutDialog" class="parent-signout-dialog" aria-labelledby="parentSignOutTitle" aria-describedby="parentSignOutDescription">
+      <div class="parent-signout-dialog-content">
+        <span class="parent-signout-dialog-icon" aria-hidden="true"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+        <h2 id="parentSignOutTitle">Sign out?</h2>
+        <p id="parentSignOutDescription">Are you sure you want to sign out of the Parent Portal?</p>
+        <p id="parentSignOutMessage" class="parent-signout-dialog-message" aria-live="polite"></p>
+        <div class="parent-signout-dialog-actions">
+          <button id="cancelParentSignOut" class="parent-signout-cancel" type="button">Cancel</button>
+          <button id="confirmParentSignOut" class="parent-signout-confirm" type="button">Sign out</button>
+        </div>
+      </div>
+    </dialog>
+    <nav class="parent-bottom-nav" aria-label="Parent portal navigation">
+      <a href="parent-dashboard.html"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Dashboard</span></a>
+      <a href="parent-academics.html"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Academics</span></a>
+      <a class="is-active" href="parent-settings.html" aria-current="page"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span></a>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1"></script>
+    <script src="/js/supabase.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/push-config.js"></script>
+    <script src="/js/push-notifications.js"></script>
+    <script src="/js/parent-portal.js"></script>
+    <script src="/js/parent-settings.js"></script>
+    <script src="/js/app-icons.js"></script>
+  </body>
+</html>

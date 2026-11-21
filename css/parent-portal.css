@@ -54,6 +54,19 @@ body.parent-auth-checking .parent-auth-loading {
   margin: 0;
 }
 
+.parent-auth-spinner {
+  animation: parent-auth-spin 0.8s linear infinite;
+  border: 3px solid #dbeafe;
+  border-radius: 50%;
+  border-top-color: #2563eb;
+  height: 30px;
+  width: 30px;
+}
+
+@keyframes parent-auth-spin {
+  to { transform: rotate(360deg); }
+}
+
 .parent-auth-loading__content p {
   color: #64748b;
   font-size: 14px;
@@ -1750,7 +1763,7 @@ body.parent-portal {
   border-top: 1px solid #e4eaf2;
   bottom: 0;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   left: 50%;
   max-width: 620px;
   padding: 7px 10px calc(7px + env(safe-area-inset-bottom));
@@ -1894,5 +1907,305 @@ body.parent-portal {
     grid-column: 2;
     grid-row: auto;
     justify-self: start;
+  }
+}
+
+.parent-academics-main,
+.parent-settings-main {
+  gap: 14px;
+}
+
+.parent-academics-heading,
+.parent-settings-heading {
+  padding: 0 2px 2px;
+}
+
+.parent-academics-heading h1,
+.parent-settings-heading h1 {
+  color: #182941;
+  font-size: 1.35rem;
+  margin: 0;
+}
+
+.parent-academics-heading > p:last-child,
+.parent-settings-heading > p:last-child {
+  color: #6b7d97;
+  font-size: 0.82rem;
+  margin: 5px 0 0;
+}
+
+.parent-academics-main > .parent-back-link,
+.parent-settings-main > .parent-back-link {
+  align-self: flex-start;
+  background: #fff;
+  border: 1px solid #dbe4f0;
+  border-radius: 999px;
+  color: #315b9e;
+  margin: 0;
+  padding: 7px 12px;
+}
+
+.parent-academics-main .record-student-heading {
+  gap: 13px;
+  min-height: 106px;
+}
+
+.parent-academics-main .record-student-heading h2 {
+  color: #172b47;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.parent-academics-main .record-student-heading p {
+  color: #6b7d97;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  margin: 5px 0 0;
+}
+
+.parent-academics-cards {
+  background: #fff;
+  border: 1px solid #e4eaf2;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  overflow: hidden;
+}
+
+.parent-portal .parent-academics-cards .parent-record-link {
+  grid-template-columns: 52px minmax(0, 1fr) 14px;
+  min-height: 82px;
+}
+
+.parent-academics-cards .parent-record-link > span {
+  display: grid;
+  gap: 3px;
+}
+
+.parent-academics-cards .parent-record-link strong {
+  color: #172b47;
+  font-size: 0.88rem;
+}
+
+.parent-academics-cards .parent-record-link small {
+  color: #71839e;
+  font-size: 0.72rem;
+  font-weight: 400;
+}
+
+.parent-academics-empty {
+  background: #fff;
+  border: 1px solid #e4eaf2;
+  border-radius: 18px;
+  color: #6b7d97;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  padding: 18px;
+}
+
+.parent-academics-empty[hidden],
+.parent-academics-cards[hidden],
+.record-student-heading[hidden] {
+  display: none !important;
+}
+
+.parent-settings-list {
+  background: #fff;
+  border: 1px solid #e4eaf2;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.parent-setting-row {
+  align-items: center;
+  border-bottom: 1px solid #edf1f6;
+  color: #172b47;
+  display: grid;
+  gap: 11px;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  min-height: 80px;
+  padding: 12px 14px;
+  text-decoration: none;
+}
+
+.parent-setting-signout {
+  background: #fff;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+}
+
+.parent-setting-signout .parent-setting-icon {
+  background: #fff1f2;
+  color: #d12f45;
+}
+
+.parent-setting-row:last-child {
+  border-bottom: 0;
+}
+
+.parent-setting-icon {
+  align-items: center;
+  background: #edf4ff;
+  border-radius: 50%;
+  color: #2864d7;
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+}
+
+.parent-setting-copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.parent-setting-copy strong {
+  font-size: 0.88rem;
+}
+
+.parent-setting-copy small {
+  color: #71839e;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.parent-setting-chevron {
+  color: #95a6bf;
+  font-size: 0.85rem;
+}
+
+.parent-setting-notifications .parent-push-toggle {
+  border-radius: 999px;
+  font-size: 0.72rem;
+  min-height: 34px;
+  padding: 0 11px;
+  width: auto;
+}
+
+.parent-setting-theme #dashboardThemeToggle {
+  min-height: 36px;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+
+body.app-dark.parent-portal {
+  background: #101318;
+  color: #e8edf5;
+}
+
+body.app-dark.parent-portal .parent-topbar,
+body.app-dark.parent-portal .parent-bottom-nav,
+body.app-dark.parent-portal .parent-profile-header-card,
+body.app-dark.parent-portal .parent-child-card,
+body.app-dark.parent-portal .selected-student-heading,
+body.app-dark.parent-portal .parent-record-links,
+body.app-dark.parent-portal .parent-record-link,
+body.app-dark.parent-portal .parent-record-panel,
+body.app-dark.parent-portal .parent-record-tabs a,
+body.app-dark.parent-portal .parent-settings-list,
+body.app-dark.parent-portal .parent-setting-row,
+body.app-dark.parent-portal .parent-academics-cards,
+body.app-dark.parent-portal .parent-academics-empty,
+body.app-dark.parent-portal .parent-announcements,
+body.app-dark.parent-portal .parent-announcement,
+body.app-dark.parent-portal .parent-push-card,
+body.app-dark.parent-portal .record-student-heading {
+  background-color: #191e27;
+  border-color: #303947;
+  color: #e8edf5;
+}
+
+body.app-dark.parent-portal .parent-brand,
+body.app-dark.parent-portal .parent-welcome h1,
+body.app-dark.parent-portal .parent-child-info strong,
+body.app-dark.parent-portal .selected-student-heading h2,
+body.app-dark.parent-portal .parent-record-link,
+body.app-dark.parent-portal .parent-record-heading h2,
+body.app-dark.parent-portal .parent-setting-copy strong,
+body.app-dark.parent-portal .parent-academics-heading h1,
+body.app-dark.parent-portal .parent-settings-heading h1,
+body.app-dark.parent-portal .parent-academics-cards .parent-record-link strong {
+  color: #e8edf5;
+}
+
+body.app-dark.parent-portal .parent-record-link > i:first-child,
+body.app-dark.parent-portal .parent-setting-icon {
+  background: #26374f;
+  color: #8db7ff;
+}
+
+body.app-dark.parent-portal .parent-bottom-nav a {
+  color: #aab7c9;
+}
+
+body.app-dark.parent-portal .parent-bottom-nav a.is-active {
+  background: #26374f;
+  color: #9fc1ff;
+}
+
+body.app-dark.parent-portal :is(
+  .parent-account-email,
+  .parent-contact-grid .pill-value,
+  .parent-child-info span,
+  .selected-student-heading > div > p:last-child,
+  .parent-academics-heading > p:last-child,
+  .parent-settings-heading > p:last-child,
+  .parent-setting-copy small,
+  .parent-academics-cards .parent-record-link small,
+  .record-student-heading p
+) {
+  color: #aab7c9;
+}
+
+body.app-dark.parent-portal .parent-signout,
+body.app-dark.parent-portal .parent-back-link,
+body.app-dark.parent-portal .parent-refresh-button,
+body.app-dark.parent-portal .btn-change-profile {
+  background: #202936;
+  border-color: #3a4656;
+  color: #c5d8f6;
+}
+
+body.app-dark.parent-portal .my-profiles-form .form-section {
+  background: #191e27;
+  border-color: #303947;
+}
+
+body.app-dark.parent-portal .my-profiles-form .form-section h3,
+body.app-dark.parent-portal .page-header h2 {
+  color: #e8edf5;
+}
+
+body.app-dark.parent-portal .my-profiles-form .form-group label,
+body.app-dark.parent-portal .page-header p {
+  color: #aab7c9;
+}
+
+body.app-dark.parent-portal .my-profiles-form .cancel-btn {
+  background: #263141;
+  color: #d4deeb;
+}
+
+@media (max-width: 380px) {
+  .parent-setting-row {
+    gap: 8px;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    padding: 11px 10px;
+  }
+
+  .parent-setting-icon {
+    height: 36px;
+    width: 36px;
+  }
+
+  .parent-setting-theme #dashboardThemeToggle {
+    gap: 5px;
+    padding: 6px 8px;
   }
 }

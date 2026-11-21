@@ -46,11 +46,6 @@ async function loadParentDashboard() {
       return;
     }
 
-    window.initPushNotificationSetup?.({
-      buttonId: "parentPushToggle",
-      statusId: "parentPushStatus",
-    });
-
     const { data: links, error: linksError } = await client
       .from("parent_student_links")
       .select("student_id, relationship")

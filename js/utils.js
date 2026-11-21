@@ -167,7 +167,13 @@ const ADMIN_ACCOUNTANT_PAGES = [
   "enrollment.html",
 ];
 
-const PARENT_ONLY_PAGES = ["parent-dashboard.html", "parent-records.html"];
+const PARENT_ONLY_PAGES = [
+  "parent-dashboard.html",
+  "parent-academics.html",
+  "parent-records.html",
+  "parent-settings.html",
+  "my-profile.html",
+];
 
 const ADMIN_TEACHER_PAGES = [
   "attendance.html",

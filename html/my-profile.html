@@ -143,14 +143,14 @@
               Reset
             </button>
 
-            <form
+            <div
               id="profileForm"
               data-student-status="<%= studentStatusFromDB %>"
             >
               <button type="submit" id="saveProfileInfo" class="save-btn">
                 Save Changes
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </form>
@@ -275,17 +275,11 @@
       <a href="parent-dashboard.html">
         <i class="fa-solid fa-house" aria-hidden="true"></i><span>Dashboard</span>
       </a>
-      <a href="parent-records.html?view=attendance">
+      <a href="parent-academics.html">
         <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Academics</span>
       </a>
-      <a href="parent-records.html?view=fees">
-        <i class="fa-solid fa-wallet" aria-hidden="true"></i><span>Fees</span>
-      </a>
-      <a href="parent-dashboard.html#studentAnnouncementsSection">
-        <i class="fa-solid fa-bell" aria-hidden="true"></i><span>Updates</span>
-      </a>
-      <a class="is-active" href="my-profile.html?from=parent" aria-current="page">
-        <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Profile</span>
+      <a class="is-active" href="parent-settings.html" aria-current="page">
+        <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span>
       </a>
     </nav>
 
