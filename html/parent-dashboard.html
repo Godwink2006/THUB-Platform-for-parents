@@ -46,9 +46,9 @@
       </div>
     </div>
     <header class="parent-topbar">
-      <a class="parent-brand">
+      <a class="parent-brand" href="parent-dashboard.html" aria-label="T-HUB Parent Portal home">
         <img src="/icons/app-icon-192.png" alt="" />
-        <span>HSMS</span>
+        <span>T-HUB <small>Parent Portal</small></span>
       </a>
       <button id="parentSignOut" class="parent-signout" type="button">
         <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
@@ -73,20 +73,11 @@
               <h1 id="parentWelcomeTitle">
                 Welcome, <span id="parentName">Loading...</span>
               </h1>
+              <span id="parentAccountEmail" class="parent-account-email">Loading...</span>
             </div>
           </div>
 
           <div class="parent-contact-grid">
-            <div class="contact-pill">
-              <i class="fa-solid fa-envelope"></i>
-              <div>
-                <span class="pill-label">Email</span>
-                <span id="parentAccountEmail" class="pill-value"
-                  >Loading...</span
-                >
-              </div>
-            </div>
-
             <div class="contact-pill">
               <i class="fa-solid fa-phone"></i>
               <div>
@@ -99,6 +90,9 @@
           </div>
 
           <div class="parent-profile-actions">
+            <button id="parentRefresh" class="parent-refresh-button" type="button">
+              <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh
+            </button>
             <a href="my-profile.html?from=parent" class="btn-change-profile">
               <i class="fa-solid fa-user-pen"></i>
               Change Profile Information
@@ -168,28 +162,29 @@
           aria-label="Selected student information"
         >
           <a class="parent-record-link" href="parent-records.html?view=fees"
-            ><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i>
-            Payments</a
+            ><i class="fa-solid fa-wallet" aria-hidden="true"></i>
+            <span>My Fees</span><i class="fa-solid fa-chevron-right parent-link-chevron" aria-hidden="true"></i></a
           >
           <a
             class="parent-record-link"
             href="parent-records.html?view=attendance"
             ><i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
-            Attendance</a
+            <span>My Attendance</span><i class="fa-solid fa-chevron-right parent-link-chevron" aria-hidden="true"></i></a
           >
           <a class="parent-record-link" href="parent-records.html?view=grades"
             ><i class="fa-solid fa-chart-column" aria-hidden="true"></i>
-            Grades</a
+            <span>My Grades</span><i class="fa-solid fa-chevron-right parent-link-chevron" aria-hidden="true"></i></a
           >
 
           <a
             class="parent-record-link"
             href="parent-records.html?view=timetable"
             ><i class="fa-solid fa-calendar-alt" aria-hidden="true"></i>
-            Timetable</a
+            <span>Class Timetable</span><i class="fa-solid fa-chevron-right parent-link-chevron" aria-hidden="true"></i></a
           >
         </nav>
         <section
+          id="studentAnnouncementsSection"
           class="parent-announcements"
           aria-labelledby="studentAnnouncementsTitle"
         >
@@ -237,6 +232,23 @@
         </div>
       </div>
     </dialog>
+    <nav class="parent-bottom-nav" aria-label="Parent portal navigation">
+      <a class="is-active" href="parent-dashboard.html" aria-current="page">
+        <i class="fa-solid fa-house" aria-hidden="true"></i><span>Dashboard</span>
+      </a>
+      <a href="parent-records.html?view=attendance">
+        <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Academics</span>
+      </a>
+      <a href="parent-records.html?view=fees">
+        <i class="fa-solid fa-wallet" aria-hidden="true"></i><span>Fees</span>
+      </a>
+      <a href="parent-dashboard.html#studentAnnouncementsSection">
+        <i class="fa-solid fa-bell" aria-hidden="true"></i><span>Updates</span>
+      </a>
+      <a href="my-profile.html?from=parent">
+        <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Profile</span>
+      </a>
+    </nav>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1"></script>
     <script src="/js/supabase.js"></script>
     <script src="/js/utils.js"></script>

@@ -40,9 +40,9 @@
   </head>
   <body class="parent-portal">
     <header class="parent-topbar">
-      <a class="parent-brand">
+      <a class="parent-brand" href="parent-dashboard.html" aria-label="T-HUB Parent Portal home">
         <img src="/icons/app-icon-192.png" alt="" />
-        <span>HSMS <small>Family Portal</small></span>
+        <span>T-HUB <small>Parent Portal</small></span>
       </a>
       <button id="parentSignOut" class="parent-signout" type="button">
         <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
@@ -197,6 +197,23 @@
         </div>
       </div>
     </dialog>
+    <nav class="parent-bottom-nav" aria-label="Parent portal navigation">
+      <a href="parent-dashboard.html">
+        <i class="fa-solid fa-house" aria-hidden="true"></i><span>Dashboard</span>
+      </a>
+      <a href="parent-records.html?view=attendance" data-parent-nav="academics">
+        <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Academics</span>
+      </a>
+      <a href="parent-records.html?view=fees" data-parent-nav="fees">
+        <i class="fa-solid fa-wallet" aria-hidden="true"></i><span>Fees</span>
+      </a>
+      <a href="parent-dashboard.html#studentAnnouncementsSection">
+        <i class="fa-solid fa-bell" aria-hidden="true"></i><span>Updates</span>
+      </a>
+      <a href="my-profile.html?from=parent">
+        <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Profile</span>
+      </a>
+    </nav>
     <script
       src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1"
       crossorigin="anonymous"

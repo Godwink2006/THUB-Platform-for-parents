@@ -11,6 +11,9 @@ async function finishParentDashboardWelcome() {
 
 async function loadParentDashboard() {
   window.beginAuthWelcome?.();
+  document.getElementById("parentRefresh")?.addEventListener("click", () => {
+    window.location.reload();
+  });
   const container = document.getElementById("parentChildren");
   const client = window.supabaseClient;
   if (!container || !client) return;
@@ -105,11 +108,9 @@ async function loadParentDashboard() {
     const previousSelection = sessionStorage.getItem(
       selectedParentStudentStorageKey,
     );
-    if (children.some((child) => child.id === previousSelection)) {
-      selectParentStudent(
-        children.find((child) => child.id === previousSelection),
-      );
-    }
+    selectParentStudent(
+      children.find((child) => child.id === previousSelection) || children[0],
+    );
     container.setAttribute("aria-busy", "false");
     await finishParentDashboardWelcome();
   } catch (error) {
