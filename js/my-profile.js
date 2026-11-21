@@ -607,18 +607,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (role === "parent") {
           window.location.replace("parent-dashboard.html"); // Prevents back-swipe
         } else {
-          window.location.replace("settings.html");
+          window.location.replace("/index.html");
         }
       };
     } else {
       backBtn.onclick = () => {
-        window.location.replace("settings.html");
+        window.location.replace("/index.html");
       };
     }
   } catch (err) {
     showMyProfileError(err, "profile", "load");
     backBtn.onclick = () => {
-      window.location.href = "settings.html";
+      window.location.href = "parent-dashboard.html";
     };
   }
 });

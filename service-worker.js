@@ -11,7 +11,7 @@ self.addEventListener("push", (event) => {
     body: payload.body || payload.message || "You have a new notification.",
     icon: "/icons/app-icon-192.png",
     badge: "/icons/app-icon-192.png",
-    data: { url: payload.url || "/html/notifications.html" },
+    data: { url: payload.url || "/html/parent-dashboard.html" },
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
@@ -20,12 +20,12 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
   const requestedUrl = new URL(
-    event.notification.data?.url || "/html/notifications.html",
+    event.notification.data?.url || "/html/parent-dashboard.html",
     self.location.origin,
   );
   const targetUrl = requestedUrl.origin === self.location.origin
     ? requestedUrl.href
-    : new URL("/html/notifications.html", self.location.origin).href;
+    : new URL("/html/parent-dashboard.html", self.location.origin).href;
 
   event.waitUntil((async () => {
     const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });

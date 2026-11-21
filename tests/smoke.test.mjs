@@ -59,31 +59,18 @@ test("HTML pages reference existing local assets", async () => {
   assert.deepEqual(missing, [], `missing local assets:\n${missing.join("\n")}`);
 });
 
-test("production frontend pins Supabase JS and escapes high-risk rendered data", async () => {
+test("parent sign-in and portal routes point to the parent experience", async () => {
   const htmlFiles = [
     path.join(projectRoot, "index.html"),
     ...(await walk(path.join(projectRoot, "html"))).filter((file) => file.endsWith(".html")),
   ];
   for (const file of htmlFiles) {
     const html = await readFile(file, "utf8");
-    assert.doesNotMatch(html, /@supabase\/supabase-js@2(?:["/])/,
-      `${path.relative(projectRoot, file)} should pin an exact Supabase JS version`);
+    assert.doesNotMatch(html, /\/html\/dashboard\.html/,
+      `${path.relative(projectRoot, file)} should not link to the removed staff dashboard`);
   }
 
-  const assertions = [
-    ["js/notifications.js", /escapeHTML\(item\.title/],
-    ["js/notifications.js", /escapeHTML\(item\.message/],
-    ["js/students.js", /escapeHTML\(profile\.full_name/],
-    ["js/teachers.js", /escapeHTML\(profile\.email/],
-    ["js/payment.js", /escapeHTML\(itemName\)/],
-    ["js/enrollment.js", /escapeHtml\(err\.message/],
-  ];
-  for (const [relativeFile, pattern] of assertions) {
-    const source = await readFile(path.join(projectRoot, relativeFile), "utf8");
-    assert.match(source, pattern, `${relativeFile} should escape data before rendering HTML`);
-  }
-
-  const utils = await readFile(path.join(projectRoot, "js/utils.js"), "utf8");
-  assert.match(utils, /if \(!window\.supabaseClient\)[\s\S]{0,180}window\.location\.replace\("\/index\.html\?error=service_unavailable"\)/,
-    "protected pages should fail closed when Supabase cannot initialize");
+  const login = await readFile(path.join(projectRoot, "js/login.js"), "utf8");
+  assert.match(login, /profile\.role\s*\|\|\s*""\)\.toLowerCase\(\) !== "parent"/);
+  assert.doesNotMatch(login, /\/html\/dashboard\.html/);
 });

@@ -163,8 +163,6 @@ const ADMIN_ONLY_PAGES = [
 ];
 
 const ADMIN_ACCOUNTANT_PAGES = [
-  "students.html",
-  "parent-invitations.html",
   "finance.html",
   "enrollment.html",
 ];
@@ -690,11 +688,11 @@ window.addEventListener("pageshow", async (event) => {
 
     if (isLoginPage()) {
       if (user) {
-        const destination =
-          String(profile?.role || "").toLowerCase() === "parent"
-            ? "/html/parent-dashboard.html"
-            : "/html/dashboard.html";
-        window.location.replace(destination);
+        if (String(profile?.role || "").toLowerCase() === "parent") {
+          window.location.replace("/html/parent-dashboard.html");
+        } else {
+          await window.forceLogout();
+        }
         return;
       }
       document.body.classList.remove("login-auth-checking");
