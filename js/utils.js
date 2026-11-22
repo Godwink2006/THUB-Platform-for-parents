@@ -718,7 +718,10 @@ window.addEventListener("pageshow", async (event) => {
 
     if (isLoginPage()) {
       if (user) {
-        if (String(profile?.role || "").toLowerCase() === "parent") {
+        if (
+          String(profile?.role || "").trim().toLowerCase() === "parent" &&
+          String(profile?.status || "").trim().toLowerCase() === "active"
+        ) {
           window.location.replace("/html/parent-dashboard.html");
         } else {
           await window.forceLogout();

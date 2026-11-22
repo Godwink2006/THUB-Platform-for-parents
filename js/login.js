@@ -6,6 +6,13 @@ function togglePassword(id) {
 const form = document.getElementById("loginForm");
 window.beginAuthWelcome?.();
 
+function isActiveParentProfile(profile) {
+  return (
+    String(profile?.role || "").trim().toLowerCase() === "parent" &&
+    String(profile?.status || "").trim().toLowerCase() === "active"
+  );
+}
+
 async function redirectIfAlreadySignedIn() {
   const client = window.supabaseClient;
   if (!client?.auth) {
@@ -32,14 +39,7 @@ async function redirectIfAlreadySignedIn() {
       .maybeSingle();
     if (profileError) throw profileError;
 
-    if (!profile || String(profile.status || "").toLowerCase() !== "active") {
-      await client.auth.signOut();
-      window.clearAuthWelcome?.();
-      document.body.classList.remove("login-auth-checking");
-      return;
-    }
-
-    if (String(profile.role || "").toLowerCase() !== "parent") {
+    if (!isActiveParentProfile(profile)) {
       await client.auth.signOut();
       window.clearAuthWelcome?.();
       document.body.classList.remove("login-auth-checking");
@@ -50,6 +50,7 @@ async function redirectIfAlreadySignedIn() {
     return;
   } catch (error) {
     console.warn("Could not restore the signed-in user's role:", error);
+    await client.auth.signOut();
   }
 
   window.clearAuthWelcome?.();
@@ -83,40 +84,38 @@ form.addEventListener("submit", async (e) => {
 
     const {
       data: { session },
+      error: sessionError,
     } = await window.supabaseClient.auth.getSession();
 
-    if (!session) {
-      throw new Error("No session found.");
+    if (sessionError || !session) {
+      await window.supabaseClient.auth.signOut();
+      throw sessionError || new Error("No session found.");
     }
 
     const { data: profile, error: profileError } = await window.supabaseClient
       .from("profiles")
-      .select("*")
+      .select("role, status")
       .eq("id", data.user.id)
       .maybeSingle();
 
     if (profileError) {
       console.error(profileError);
+      await window.supabaseClient.auth.signOut();
       throw new Error(profileError.message || "Failed to fetch user profile.");
     }
 
-    if (!profile) {
+    if (!profile || String(profile.role || "").toLowerCase() !== "parent") {
       await window.supabaseClient.auth.signOut();
       throw new Error(
-        "We couldn't load your parent profile. Contact your school if you need help with your account.",
+        "This sign-in is for parent accounts. Contact your school for help.",
       );
     }
 
-    if (profile.status !== "active") {
+    if (String(profile.status || "").trim().toLowerCase() !== "active") {
       await window.supabaseClient.auth.signOut();
       throw new Error(
         "Your account has been deactivated. Contact the system administrator.",
       );
-    }
-
-    if (String(profile.role || "").toLowerCase() !== "parent") {
-      await window.supabaseClient.auth.signOut();
-      throw new Error("This sign-in is for parent accounts. Contact your school for help.");
     }
 
     window.beginAuthWelcome?.();
