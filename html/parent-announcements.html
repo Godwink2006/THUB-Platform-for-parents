@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Announcements | T-HUB Parent Portal</title>
+    <link rel="stylesheet" href="/css/parent-portal.css" />
+    <link rel="stylesheet" href="/css/utils.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#2563eb" />
+    <link rel="stylesheet" href="/css/app-visuals.css" />
+  </head>
+  <body class="parent-portal parent-auth-checking">
+    <div class="parent-auth-loading" role="status" aria-live="polite">
+      <div class="parent-auth-loading__content">
+        <span class="parent-auth-spinner" aria-hidden="true"></span>
+        <p>Loading announcements…</p>
+      </div>
+    </div>
+    <main class="parent-main parent-announcements-main">
+      <section class="parent-academics-heading">
+        <p class="parent-badges">SCHOOL UPDATES</p>
+        <h1>Announcements</h1>
+        <p>Updates for your selected student.</p>
+      </section>
+      <section id="announcementStudentSummary" class="record-student-heading" aria-live="polite">
+        <span class="parent-student-avatar-shell parent-student-avatar-large" aria-hidden="true">
+          <img id="announcementStudentPhoto" class="parent-student-avatar" alt="" hidden />
+          <span id="announcementStudentInitials" class="parent-student-avatar-initials">S</span>
+        </span>
+        <div>
+          <h2 id="announcementStudentName">Loading student…</h2>
+          <p id="announcementStudentDetails">Checking your secure student selection…</p>
+        </div>
+      </section>
+      <section class="parent-announcements parent-announcements-page" aria-labelledby="announcementsTitle">
+        <h2 id="announcementsTitle">School announcements</h2>
+        <div id="parentAnnouncements" aria-live="polite" aria-busy="true">
+          <p class="parent-state">Loading announcements…</p>
+        </div>
+      </section>
+      <p id="announcementsEmptyState" class="parent-academics-empty" hidden>
+        No student is selected yet. <a href="parent-dashboard.html">Choose a student from your dashboard.</a>
+      </p>
+    </main>
+    <nav class="parent-bottom-nav" aria-label="Parent portal navigation">
+      <a href="parent-dashboard.html"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Dashboard</span></a>
+      <a class="is-active" href="parent-academics.html" aria-current="page"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i><span>Academics</span></a>
+      <a href="parent-settings.html"><i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span></a>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1"></script>
+    <script src="/js/supabase.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/parent-announcements.js"></script>
+    <script src="/js/app-icons.js"></script>
+  </body>
+</html>

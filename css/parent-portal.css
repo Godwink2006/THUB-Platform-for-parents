@@ -43,7 +43,7 @@ body.parent-auth-checking .parent-auth-loading {
 }
 
 .parent-auth-loading__content img {
-  border-radius: 22px;
+  border-radius: 20px;
   height: 92px;
   width: 92px;
 }
@@ -93,7 +93,7 @@ body.parent-auth-checking .parent-auth-loading {
   text-decoration: none;
 }
 .parent-brand > img {
-  border-radius: 12px;
+  border-radius: 20px;
   display: block;
   height: 42px;
   object-fit: cover;
@@ -492,7 +492,7 @@ body.parent-auth-checking .parent-auth-loading {
   .parent-portal .parent-link-row,
   .parent-link-row button,
   .parent-badges {
-    border-radius: 10px;
+    border-radius: 20px;
   }
 }
 
@@ -1086,14 +1086,14 @@ body.parent-portal {
   .parent-push-card,
   .parent-push-toggle,
   .parent-badges {
-    border-radius: 10px;
+    border-radius: 20px;
   }
   .parent-portal .children-section,
   .parent-portal .selected-student-panel,
   .parent-portal .parent-form,
   .parent-portal .parent-record-panel,
   .parent-portal .parent-signout-dialog {
-    border-radius: 10px;
+    border-radius: 20px;
   }
   .parent-portal .parent-form input,
   .parent-portal .parent-form select,
@@ -1107,10 +1107,10 @@ body.parent-portal {
   .btn-change-profile,
   .parent-record-author .parent-class-teacher-badge,
 .parent-timetable-class-teacher {
-    border-radius: 10px;
+    border-radius: 20px;
   }
   .parent-record-filter-button {
-    border-radius: 10px;
+    border-radius: 20px;
     width: 100%;
   }
   .parent-portal .parent-child-card,
@@ -1118,7 +1118,7 @@ body.parent-portal {
   .parent-portal .parent-record-tabs a,
   .parent-portal .portal-coming-soon,
   .parent-portal .parent-link-row {
-    border-radius: 10px;
+    border-radius: 20px;
   }
   .parent-portal .parent-primary-button,
   .parent-portal .parent-child-card button,
@@ -1126,10 +1126,10 @@ body.parent-portal {
   .parent-portal .parent-unlink-dialog,
   .parent-portal .parent-unlink-icon,
   .parent-portal .parent-unlink-dialog-actions button {
-    border-radius: 10px;
+    border-radius: 20px;
   }
   .parent-portal .parent-back-link {
-    border-radius: 10px;
+    border-radius: 20px;
   }
 
   .parent-signout,
@@ -1411,7 +1411,7 @@ body.parent-portal {
 .parent-portal .parent-signout {
   background: #fff;
   border: 1px solid #dbe4f0;
-  border-radius: 999px;
+  border-radius: 20px;
   color: #52647f;
   font-size: 0.8rem;
   min-height: 38px;
@@ -1528,7 +1528,7 @@ body.parent-portal {
 .parent-portal .btn-change-profile {
   background: #fff;
   border: 1px solid #dbe4f0;
-  border-radius: 999px;
+  border-radius: 20px;
   color: #315b9e;
   font-size: 0.82rem;
   padding: 8px 14px;
@@ -1539,7 +1539,7 @@ body.parent-portal {
   align-items: center;
   background: #fff;
   border: 1px solid #dbe4f0;
-  border-radius: 999px;
+  border-radius: 20px;
   color: #315b9e;
   cursor: pointer;
   display: inline-flex;
@@ -1585,7 +1585,7 @@ body.parent-portal {
   align-items: center;
   background: #fff;
   border: 1px solid #e4eaf2;
-  border-radius: 18px;
+  border-radius: 20px;
   box-shadow: 0 2px 8px rgb(27 43 71 / 4%);
   display: grid;
   gap: 10px 12px;
@@ -1619,7 +1619,7 @@ body.parent-portal {
   align-self: center;
   background: #eff5ff;
   border: 0;
-  border-radius: 999px;
+  border-radius: 20px;
   color: #2862ca;
   font-size: 0.72rem;
   grid-column: 3;
@@ -1646,7 +1646,7 @@ body.parent-portal {
 .parent-portal .selected-student-heading {
   background: #fff;
   border: 1px solid #e4eaf2;
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 14px;
 }
 
@@ -1726,7 +1726,7 @@ body.parent-portal {
 .parent-portal .parent-announcements {
   background: #fff;
   border: 1px solid #e4eaf2;
-  border-radius: 18px;
+  border-radius: 20px;
   margin: 0;
   padding: 16px;
   scroll-margin-bottom: 110px;
@@ -1739,21 +1739,21 @@ body.parent-portal {
 
 .parent-portal .parent-announcement {
   border-color: #e4eaf2;
-  border-radius: 14px;
+  border-radius: 20px;
   padding: 13px;
 }
 
 .parent-portal .parent-push-card {
   background: #fff;
   border: 1px solid #e4eaf2;
-  border-radius: 18px;
+  border-radius: 20px;
   margin: 0;
   order: 4;
   padding: 16px;
 }
 
 .parent-portal .parent-push-toggle {
-  border-radius: 999px;
+  border-radius: 20px;
 }
 
 .parent-bottom-nav {
@@ -1775,7 +1775,7 @@ body.parent-portal {
 
 .parent-bottom-nav a {
   align-items: center;
-  border-radius: 16px;
+  border-radius: 20px;
   color: #697b96;
   display: flex;
   flex-direction: column;
@@ -1824,7 +1824,7 @@ body.parent-portal {
 .parent-portal .parent-record-tabs a {
   background: #fff;
   border: 1px solid #dfe7f1;
-  border-radius: 999px;
+  border-radius: 20px;
   flex: 0 0 auto;
   font-size: 0.77rem;
   justify-content: center;
@@ -1836,7 +1836,7 @@ body.parent-portal {
 .parent-portal .parent-record-panel {
   background: #fff;
   border: 1px solid #e4eaf2;
-  border-radius: 18px;
+  border-radius: 20px;
   margin: 0;
   order: 3;
   padding: 16px;
@@ -1846,7 +1846,7 @@ body.parent-portal {
   align-self: flex-start;
   background: #fff;
   border: 1px solid #dbe4f0;
-  border-radius: 999px;
+  border-radius: 20px;
   color: #315b9e;
   margin: 0 0 12px;
   padding: 7px 12px;
@@ -1855,7 +1855,7 @@ body.parent-portal {
 .record-student-heading {
   background: #fff;
   border: 1px solid #e4eaf2;
-  border-radius: 18px;
+  border-radius: 20px;
   padding: 14px;
 }
 
@@ -1939,7 +1939,7 @@ body.parent-portal {
   align-self: flex-start;
   background: #fff;
   border: 1px solid #dbe4f0;
-  border-radius: 999px;
+  border-radius: 20px;
   color: #315b9e;
   margin: 0;
   padding: 7px 12px;
@@ -1996,7 +1996,7 @@ body.parent-portal {
 .parent-academics-empty {
   background: #fff;
   border: 1px solid #e4eaf2;
-  border-radius: 18px;
+  border-radius: 20px;
   color: #6b7d97;
   font-size: 0.85rem;
   line-height: 1.5;
@@ -2081,7 +2081,7 @@ body.parent-portal {
 }
 
 .parent-setting-notifications .parent-push-toggle {
-  border-radius: 999px;
+  border-radius: 20px;
   font-size: 0.72rem;
   min-height: 34px;
   padding: 0 11px;
@@ -2095,8 +2095,12 @@ body.parent-portal {
 }
 
 body.app-dark.parent-portal {
-  background: #101318;
-  color: #e8edf5;
+  background: #111 !important;
+  color: #eee;
+}
+
+body.app-dark.parent-portal main {
+  color: #eee;
 }
 
 body.app-dark.parent-portal .parent-topbar,
@@ -2116,37 +2120,47 @@ body.app-dark.parent-portal .parent-announcements,
 body.app-dark.parent-portal .parent-announcement,
 body.app-dark.parent-portal .parent-push-card,
 body.app-dark.parent-portal .record-student-heading {
-  background-color: #191e27;
-  border-color: #303947;
-  color: #e8edf5;
+  background-color: #222;
+  border-color: #333;
+  color: #999;
 }
 
 body.app-dark.parent-portal .parent-brand,
 body.app-dark.parent-portal .parent-welcome h1,
+body.app-dark.parent-portal .section-heading h2,
 body.app-dark.parent-portal .parent-child-info strong,
 body.app-dark.parent-portal .selected-student-heading h2,
+body.app-dark.parent-portal .record-student-heading h1,
+body.app-dark.parent-portal .record-student-heading h2,
 body.app-dark.parent-portal .parent-record-link,
 body.app-dark.parent-portal .parent-record-heading h2,
 body.app-dark.parent-portal .parent-setting-copy strong,
 body.app-dark.parent-portal .parent-academics-heading h1,
 body.app-dark.parent-portal .parent-settings-heading h1,
 body.app-dark.parent-portal .parent-academics-cards .parent-record-link strong {
-  color: #e8edf5;
+  color: #999;
 }
 
 body.app-dark.parent-portal .parent-record-link > i:first-child,
 body.app-dark.parent-portal .parent-setting-icon {
-  background: #26374f;
-  color: #8db7ff;
+  background: #333;
+  color: #888;
+}
+
+body.app-dark.parent-portal .parent-student-avatar-shell,
+body.app-dark.parent-portal .parent-avatar-shell {
+  background: #333;
+  border-color: #444;
+  color: #888;
 }
 
 body.app-dark.parent-portal .parent-bottom-nav a {
-  color: #aab7c9;
+  color: #777;
 }
 
 body.app-dark.parent-portal .parent-bottom-nav a.is-active {
-  background: #26374f;
-  color: #9fc1ff;
+  background: #333;
+  color: #999;
 }
 
 body.app-dark.parent-portal :is(
@@ -2160,36 +2174,42 @@ body.app-dark.parent-portal :is(
   .parent-academics-cards .parent-record-link small,
   .record-student-heading p
 ) {
-  color: #aab7c9;
+  color: #888;
 }
 
 body.app-dark.parent-portal .parent-signout,
 body.app-dark.parent-portal .parent-back-link,
 body.app-dark.parent-portal .parent-refresh-button,
 body.app-dark.parent-portal .btn-change-profile {
-  background: #202936;
-  border-color: #3a4656;
-  color: #c5d8f6;
+  background: #222;
+  border-color: #444;
+  color: #999;
 }
 
 body.app-dark.parent-portal .my-profiles-form .form-section {
-  background: #191e27;
-  border-color: #303947;
+  background: #222;
+  border-color: #333;
 }
 
 body.app-dark.parent-portal .my-profiles-form .form-section h3,
 body.app-dark.parent-portal .page-header h2 {
-  color: #e8edf5;
+  color: #999;
 }
 
 body.app-dark.parent-portal .my-profiles-form .form-group label,
 body.app-dark.parent-portal .page-header p {
-  color: #aab7c9;
+  color: #888;
 }
 
 body.app-dark.parent-portal .my-profiles-form .cancel-btn {
-  background: #263141;
-  color: #d4deeb;
+  background: #333;
+  color: #999;
+}
+
+body.app-dark.parent-portal #dashboardThemeToggle {
+  background: #222;
+  border-color: #444;
+  color: #999;
 }
 
 @media (max-width: 380px) {
@@ -2208,4 +2228,238 @@ body.app-dark.parent-portal .my-profiles-form .cancel-btn {
     gap: 5px;
     padding: 6px 8px;
   }
+}
+
+.parent-portal .parent-children {
+  background: #fff;
+  border: 1px solid #e4eaf2;
+  border-radius: 20px;
+  display: block;
+  overflow: hidden;
+}
+
+.parent-portal .parent-child-card {
+  align-items: center;
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid #e4eaf2;
+  border-radius: 20px;
+  box-shadow: none;
+  display: grid;
+  flex-direction: initial;
+  gap: 10px 12px;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  padding: 14px;
+}
+
+.parent-portal .parent-child-card:last-child {
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+}
+
+.parent-portal .parent-child-card.is-selected {
+  background: #f6f9ff;
+  box-shadow: inset 3px 0 #2563eb;
+}
+
+.parent-portal .parent-child-card button {
+  width: auto;
+}
+
+.parent-announcements-main .parent-announcements-page {
+  margin-top: 0;
+}
+
+.parent-announcements-page h2 {
+  color: #1c2e49;
+  font-size: 1rem;
+  margin: 0 0 12px;
+}
+
+.parent-announcements-page .parent-announcement h3 {
+  color: #1c2e49;
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+}
+
+body.app-dark.parent-portal .parent-children,
+body.app-dark.parent-portal .parent-child-card {
+  background: #222;
+  border-color: #333;
+}
+
+body.app-dark.parent-portal .parent-child-card.is-selected {
+  background: #333;
+  box-shadow: inset 3px 0 #666;
+}
+
+body.app-dark.parent-portal .parent-announcements-page h2,
+body.app-dark.parent-portal .parent-announcements-page .parent-announcement h3,
+body.app-dark.parent-portal .parent-announcements h3 {
+  color: #999;
+}
+
+body.app-dark.parent-portal .parent-child-card button {
+  background: #333;
+  color: #999;
+}
+
+body.app-dark.parent-portal .parent-child-card button:hover,
+body.app-dark.parent-portal .parent-record-tabs a:hover {
+  background: #444;
+  border-color: #555;
+  color: #999;
+}
+
+body.app-dark.parent-portal .parent-signout,
+body.app-dark.parent-portal .parent-back-link,
+body.app-dark.parent-portal .parent-refresh-button,
+body.app-dark.parent-portal #dashboardThemeToggle,
+body.app-dark.parent-portal .my-profiles-form .form-group input,
+body.app-dark.parent-portal .my-profiles-form .password-field input {
+  background: #222;
+  border-color: #444;
+  color: #999;
+}
+
+body.app-dark.parent-portal :is(input, select, textarea)::placeholder {
+  color: #777;
+}
+
+body.app-dark.parent-portal :is(input, select, textarea) {
+  background: #222;
+  border-color: #444;
+  color: #999;
+  color-scheme: dark;
+}
+
+body.app-dark.parent-portal .parent-push-toggle {
+  background: #333;
+  border: 1px solid #444;
+  color: #999;
+}
+
+body.app-dark.parent-portal :is(
+  h1, h2, h3, h4, h5, h6, p, span, strong, small, label, a, button, li, td, th
+) {
+  color: #999 !important;
+}
+
+body.app-dark.parent-portal :is(input, select, textarea) {
+  color: #999 !important;
+}
+
+body.app-dark.parent-portal :is(
+  .parent-child-info span,
+  .parent-setting-copy small,
+  .parent-academics-heading > p:last-child,
+  .parent-settings-heading > p:last-child,
+  .parent-announcement-meta,
+  .parent-state,
+  .parent-subtitle,
+  .pill-value,
+  .parent-account-email
+) {
+  color: #888 !important;
+}
+
+body.app-dark.parent-portal .parent-bottom-nav a:not(.is-active) {
+  color: #888 !important;
+}
+
+body.app-dark.parent-portal .parent-badge,
+body.app-dark.parent-portal .parent-badges {
+  background: #333;
+  color: #888 !important;
+}
+
+body.app-dark.parent-portal :is(h1, h2, h3, h4, h5, h6) {
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal :is(p, span, strong, small, label, a, button, li, td, th) {
+  color: #eee !important;
+}
+
+body.app-dark.parent-portal :is(
+  .parent-child-info span,
+  .parent-setting-copy small,
+  .parent-academics-heading > p:last-child,
+  .parent-settings-heading > p:last-child,
+  .parent-announcement-meta,
+  .parent-state,
+  .parent-subtitle,
+  .pill-value,
+  .parent-account-email,
+  .record-student-heading p
+) {
+  color: #b8b8b8 !important;
+}
+
+body.app-dark.parent-portal .parent-bottom-nav a:not(.is-active) {
+  color: #aaa !important;
+}
+
+body.app-dark.parent-portal .parent-bottom-nav a.is-active {
+  background: #333;
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal .parent-bottom-nav a.is-active i,
+body.app-dark.parent-portal .parent-record-link > i:first-child,
+body.app-dark.parent-portal .parent-setting-icon {
+  color: #60a5fa !important;
+}
+
+body.app-dark.parent-portal .parent-record-link > i:first-child,
+body.app-dark.parent-portal .parent-setting-icon {
+  background: #333;
+}
+
+body.app-dark.parent-portal .parent-badge,
+body.app-dark.parent-portal .parent-badges {
+  background: #333;
+  color: #93c5fd !important;
+}
+
+body.app-dark.parent-portal .parent-child-card button,
+body.app-dark.parent-portal .parent-push-toggle,
+body.app-dark.parent-portal .my-profiles-form .save-btn,
+body.app-dark.parent-portal .my-profiles-form .savepassword-btn {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal .parent-child-card button:hover,
+body.app-dark.parent-portal .parent-push-toggle:hover,
+body.app-dark.parent-portal .my-profiles-form .save-btn:hover,
+body.app-dark.parent-portal .my-profiles-form .savepassword-btn:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+body.app-dark.parent-portal .parent-setting-theme #dashboardThemeToggle {
+  background: #333;
+  border-color: #555;
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal :is(input, select, textarea) {
+  background: #222;
+  border-color: #444;
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal :is(input, select, textarea)::placeholder {
+  color: #aaa;
+}
+
+body.app-dark.parent-portal .parent-setting-signout .parent-setting-icon {
+  background: #333;
+  color: #f87171 !important;
+}
+
+body.app-dark.parent-portal .parent-state.is-error {
+  color: #fca5a5 !important;
 }

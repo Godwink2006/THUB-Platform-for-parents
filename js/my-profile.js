@@ -406,7 +406,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .getElementById("myProfilePhoto")
     ?.addEventListener("change", checkProfileChanges);
 });
-
 async function handleChangePassword(event) {
   if (event) event.preventDefault();
 
@@ -573,52 +572,5 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   } catch (error) {
     showMyProfileError(error, "enrollment information", "load");
-  }
-});
-
-document.addEventListener("DOMContentLoaded", async () => {
-  const backBtn = document.getElementById("backBtn");
-  if (!backBtn) return;
-
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get("from") === "parent") {
-    backBtn.onclick = () => {
-      window.location.href = "parent-dashboard.html";
-    };
-    return;
-  }
-
-  try {
-    const { data, error: authError } = await supabaseClient.auth.getUser();
-    if (authError) throw authError;
-    const user = data?.user;
-
-    if (user) {
-      const { data: profile, error } = await supabaseClient
-        .from("profiles")
-        .select("role")
-        .eq("id", user.id)
-        .single();
-      if (error) showMyProfileError(error, "profile", "load");
-
-      const role = profile?.role?.toLowerCase();
-
-      backBtn.onclick = () => {
-        if (role === "parent") {
-          window.location.replace("parent-dashboard.html"); // Prevents back-swipe
-        } else {
-          window.location.replace("/index.html");
-        }
-      };
-    } else {
-      backBtn.onclick = () => {
-        window.location.replace("/index.html");
-      };
-    }
-  } catch (err) {
-    showMyProfileError(err, "profile", "load");
-    backBtn.onclick = () => {
-      window.location.href = "parent-dashboard.html";
-    };
   }
 });

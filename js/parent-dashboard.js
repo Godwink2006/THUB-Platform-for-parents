@@ -1,16 +1,9 @@
 const selectedParentStudentStorageKey = "tHubParentSelectedStudentId";
-let parentAnnouncementRequestId = 0;
+const parentDashboardCachePrefix = "tHubParentDashboardCache:";
 
 document.addEventListener("DOMContentLoaded", loadParentDashboard);
 
-async function finishParentDashboardWelcome() {
-  await window.completeAuthWelcome?.();
-  document.body.classList.remove("parent-auth-checking");
-  document.querySelector(".parent-auth-loading")?.remove();
-}
-
 async function loadParentDashboard() {
-  window.beginAuthWelcome?.();
   document.getElementById("parentRefresh")?.addEventListener("click", () => {
     window.location.reload();
   });
@@ -20,17 +13,53 @@ async function loadParentDashboard() {
 
   try {
     const {
-      data: { user },
-      error: authError,
-    } = await client.auth.getUser();
-    if (authError || !user) {
+      data: { session },
+      error: sessionError,
+    } = await client.auth.getSession();
+    const user = session?.user;
+    if (sessionError || !user) {
+      window.location.replace("/index.html");
+      return;
+    }
+
+    const cacheKey = `${parentDashboardCachePrefix}${user.id}`;
+    const cachedDashboard = readParentDashboardCache(cacheKey, user.id);
+    if (cachedDashboard) {
+      window.renderParentPortalProfile(cachedDashboard.profile, user);
+      if (cachedDashboard.children.length) {
+        renderParentChildren(cachedDashboard.children, cacheKey);
+        selectParentStudent(
+          findPreferredStudent(cachedDashboard.children, cachedDashboard.selectedStudentId),
+          cacheKey,
+        );
+      } else {
+        renderNoLinkedStudents(container);
+      }
+      container.setAttribute("aria-busy", "false");
+    } else {
+      container.innerHTML = '<p class="parent-state">Checking your linked students…</p>';
+    }
+
+    // Keep the current list visible while Supabase verifies access and refreshes it.
+    void refreshParentDashboard(user, container, cacheKey, cachedDashboard);
+  } catch (error) {
+    console.error("Could not check the parent session:", error);
+    window.location.replace("/index.html");
+  }
+}
+
+async function refreshParentDashboard(user, container, cacheKey, cachedDashboard) {
+  const client = window.supabaseClient;
+  try {
+    const { data: authData, error: authError } = await client.auth.getUser();
+    if (authError || !authData?.user || authData.user.id !== user.id) {
       window.location.replace("/index.html");
       return;
     }
 
     const { data: profile, error: profileError } = await client
       .from("profiles")
-      .select("id, full_name, role, status, email, photo_url, phone_number")
+      .select("id, full_name, role, status, photo_url")
       .eq("id", user.id)
       .single();
 
@@ -41,6 +70,7 @@ async function loadParentDashboard() {
       profile.role !== "parent" ||
       String(profile.status).toLowerCase() !== "active"
     ) {
+      localStorage.removeItem(cacheKey);
       await client.auth.signOut();
       window.location.replace("/index.html");
       return;
@@ -53,68 +83,100 @@ async function loadParentDashboard() {
       .eq("status", "active");
     if (linksError) throw linksError;
 
-    if (!links?.length) {
-      container.innerHTML = ` <div class="empty-state-wrapper d-flex justify-content-center align-items: center w-100 py-7">
-    <div class="empty-state-card text-center p-7 my-7">
-      <div class="icon-wrapper mb-7">
-        <i class="fa-solid fa-user-slash fa-2x"></i>
-      </div>
-      <h5 class="fw-semibold text-dark mb-2">No Students Linked</h5>
-      <p class="parent-state text-muted mb-0">No students are linked to this account yet. Contact the school that invited you.</p>
-    </div>
-  </div>
-`;
-      sessionStorage.removeItem(selectedParentStudentStorageKey);
-      container.setAttribute("aria-busy", "false");
-      await finishParentDashboardWelcome();
-      return;
+    const studentIds = [...new Set((links || []).map((link) => link.student_id))];
+    let children = [];
+    if (studentIds.length) {
+      const { data: students, error: studentsError } = await client
+        .from("students")
+        .select(
+          "id, student_id, school_id, class_id, classes:class_id(name), schools:school_id(school_name), profiles(full_name, photo_url)",
+        )
+        .in("id", studentIds);
+      if (studentsError) throw studentsError;
+
+      const relationshipByStudent = new Map(
+        (links || []).map((link) => [link.student_id, link.relationship]),
+      );
+      children = (students || [])
+        .map((student) => ({
+          ...student,
+          relationship:
+            relationshipByStudent.get(student.id) || "Parent/guardian",
+          fullName: student.profiles?.full_name || "Student",
+          photoUrl: student.profiles?.photo_url || "",
+        }))
+        .sort((a, b) => a.fullName.localeCompare(b.fullName));
     }
 
-    const { data: students, error: studentsError } = await client
-      .from("students")
-      .select(
-        "id, student_id, school_id, class_id, classes:class_id(name), schools:school_id(school_name), profiles(full_name, photo_url)",
-      )
-      .in("id", [...new Set(links.map((link) => link.student_id))]);
-    if (studentsError) throw studentsError;
-
-    const relationshipByStudent = new Map(
-      links.map((link) => [link.student_id, link.relationship]),
+    const preferredStudent = findPreferredStudent(
+      children,
+      sessionStorage.getItem(selectedParentStudentStorageKey) ||
+        cachedDashboard?.selectedStudentId,
     );
-    const children = (students || [])
-      .map((student) => ({
-        ...student,
-        relationship:
-          relationshipByStudent.get(student.id) || "Parent/guardian",
-        fullName: student.profiles?.full_name || "Student",
-        photoUrl: student.profiles?.photo_url || "",
-      }))
-      .sort((a, b) => a.fullName.localeCompare(b.fullName));
-
-    if (!children.length) {
-      container.innerHTML =
-        '<p class="parent-state">No linked student records are available. Contact the school to review the invitation.</p>';
-      container.setAttribute("aria-busy", "false");
-      await finishParentDashboardWelcome();
-      return;
+    const dashboardCache = {
+      updatedAt: Date.now(),
+      profile: {
+        full_name: profile.full_name || "Parent",
+        photo_url: profile.photo_url || "",
+      },
+      children,
+      selectedStudentId: preferredStudent?.id || null,
+    };
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify(dashboardCache));
+    } catch (storageError) {
+      console.warn("Could not cache the parent dashboard:", storageError);
     }
 
-    renderParentChildren(children);
-    const previousSelection = sessionStorage.getItem(
-      selectedParentStudentStorageKey,
-    );
-    selectParentStudent(
-      children.find((child) => child.id === previousSelection) || children[0],
-    );
+    window.renderParentPortalProfile(profile, user);
+    if (children.length) {
+      renderParentChildren(children, cacheKey);
+      selectParentStudent(preferredStudent, cacheKey);
+    } else {
+      renderNoLinkedStudents(container);
+    }
     container.setAttribute("aria-busy", "false");
-    await finishParentDashboardWelcome();
   } catch (error) {
     console.error("Could not load parent dashboard:", error);
-    container.innerHTML =
-      '<p class="parent-state">The dashboard could not load. Refresh the page or contact the school.</p>';
-    container.setAttribute("aria-busy", "false");
-    await finishParentDashboardWelcome();
+    if (!cachedDashboard) {
+      container.innerHTML =
+        '<p class="parent-state">The dashboard could not load. Refresh the page or contact the school.</p>';
+      container.setAttribute("aria-busy", "false");
+    }
   }
+}
+
+function readParentDashboardCache(cacheKey, userId) {
+  try {
+    const cached = JSON.parse(localStorage.getItem(cacheKey) || "null");
+    if (
+      cached &&
+      cached.profile &&
+      Array.isArray(cached.children) &&
+      cached.children.every((child) => child && child.id)
+    ) {
+      return cached;
+    }
+  } catch (error) {
+    console.warn(`Could not read the cached dashboard for ${userId}:`, error);
+  }
+  return null;
+}
+
+function findPreferredStudent(children, studentId) {
+  return children.find((child) => child.id === studentId) || children[0] || null;
+}
+
+function renderNoLinkedStudents(container) {
+  container.innerHTML = `
+    <div class="empty-state-wrapper d-flex justify-content-center align-items-center w-100 py-7">
+      <div class="empty-state-card text-center p-7 my-7">
+        <div class="icon-wrapper mb-7"><i class="fa-solid fa-user-slash fa-2x"></i></div>
+        <h5 class="fw-semibold text-dark mb-2">No Students Linked</h5>
+        <p class="parent-state text-muted mb-0">No students are linked to this account yet. Contact the school that invited you.</p>
+      </div>
+    </div>`;
+  sessionStorage.removeItem(selectedParentStudentStorageKey);
 }
 
 const DEFAULT_PARENT_PORTAL_AVATAR =
@@ -124,20 +186,9 @@ window.renderParentPortalProfile = function (profile, authUser) {
   const name = String(
     profile?.full_name || authUser?.user_metadata?.full_name || "Parent",
   );
-  const email = String(authUser?.email || profile?.email || "Email not added");
-  const phone = String(
-    profile?.phone_number || profile?.phone || "Phone not added",
-  );
-
   const welcomeNameElement = document.getElementById("parentName");
-  const nameElement = document.getElementById("parentAccountName");
-  const emailElement = document.getElementById("parentAccountEmail");
-  const phoneElement = document.getElementById("parentAccountPhone");
 
   if (welcomeNameElement) welcomeNameElement.textContent = name;
-  if (nameElement) nameElement.textContent = name;
-  if (emailElement) emailElement.textContent = email;
-  if (phoneElement) phoneElement.textContent = phone;
 
   const avatarShell = document.getElementById("parentPhoto");
   const avatar = avatarShell?.querySelector(".parent-avatar");
@@ -186,7 +237,7 @@ window.renderParentPortalProfile = function (profile, authUser) {
   };
 };
 
-function renderParentChildren(children) {
+function renderParentChildren(children, cacheKey) {
   const container = document.getElementById("parentChildren");
   container.innerHTML = children
     .map(
@@ -202,7 +253,7 @@ function renderParentChildren(children) {
         <span>Class: ${escapeParentPortal(child.classes?.name || "Not assigned")}</span>
         <span>School: ${escapeParentPortal(child.schools?.school_name || "Not available")}</span>
       </div>
-      <button type="button" data-select-student="${escapeParentPortal(child.id)}" aria-pressed="false">Choose student</button>
+      <button type="button" data-select-student="${escapeParentPortal(child.id)}" aria-pressed="false">Select student</button>
     </article>
   `,
     )
@@ -221,13 +272,25 @@ function renderParentChildren(children) {
       const selected = children.find(
         (child) => child.id === button.dataset.selectStudent,
       );
-      if (selected) selectParentStudent(selected);
+      if (selected) selectParentStudent(selected, cacheKey);
     });
   });
 }
 
-function selectParentStudent(student) {
+function selectParentStudent(student, cacheKey) {
+  if (!student) return;
   sessionStorage.setItem(selectedParentStudentStorageKey, student.id);
+  if (cacheKey) {
+    try {
+      const cached = JSON.parse(localStorage.getItem(cacheKey) || "null");
+      if (cached) {
+        cached.selectedStudentId = student.id;
+        localStorage.setItem(cacheKey, JSON.stringify(cached));
+      }
+    } catch (error) {
+      console.warn("Could not save the selected student:", error);
+    }
+  }
   document.querySelectorAll(".parent-child-card").forEach((card) => {
     const selected = card.dataset.studentId === student.id;
     card.classList.toggle("is-selected", selected);
@@ -237,103 +300,8 @@ function selectParentStudent(student) {
     if (card.querySelector("button"))
       card.querySelector("button").textContent = selected
         ? "Selected"
-        : "Choose student";
+        : "Select student";
   });
-  document.getElementById("selectedStudentName").textContent = student.fullName;
-  document.getElementById("selectedStudentDetails").textContent =
-    `Student ID: ${student.student_id || "Not assigned"} · Class: ${student.classes?.name || "Not assigned"} · School: ${student.schools?.school_name || "Not available"}`;
-  setParentStudentPhoto(
-    document.getElementById("selectedStudentPhoto"),
-    student.photoUrl,
-    student.fullName,
-  );
-  document.getElementById("selectedStudentPanel").hidden = false;
-  loadParentAnnouncements(student);
-}
-
-async function loadParentAnnouncements(student) {
-  const container = document.getElementById("parentAnnouncements");
-  if (!container) return;
-  const requestId = ++parentAnnouncementRequestId;
-  container.setAttribute("aria-busy", "true");
-  container.innerHTML = '<p class="parent-state">Loading announcements…</p>';
-  try {
-    const { data: enrollments, error: enrollmentError } = await window.supabaseClient
-      .from("student_enrollments")
-      .select("enrollment_status")
-      .eq("student_id", student.id)
-      .eq("school_id", student.school_id);
-    if (enrollmentError) throw enrollmentError;
-    if (requestId !== parentAnnouncementRequestId) return;
-
-    const hasTerminalEnrollment = (enrollments || []).some((enrollment) =>
-      ["graduated", "transferred"].includes(
-        String(enrollment.enrollment_status || "")
-          .trim()
-          .toLowerCase(),
-      ),
-    );
-    if (hasTerminalEnrollment) {
-      container.innerHTML =
-        '<p class="parent-state">Announcements are unavailable for this student because their enrollment at this school is marked graduated or transferred.</p>';
-      return;
-    }
-
-    const today = new Date().toISOString().slice(0, 10);
-    const { data, error } = await window.supabaseClient
-      .from("announcements")
-      .select(
-        "id, title, message, status, target_audience, expiry_date, created_at",
-      )
-      .eq("school_id", student.school_id)
-      .or(`expiry_date.is.null,expiry_date.gte.${today}`)
-      .order("created_at", { ascending: false });
-    if (error) throw error;
-    if (requestId !== parentAnnouncementRequestId) return;
-    const visible = (data || []).filter(isParentAnnouncementVisible);
-    if (!visible.length) {
-      container.innerHTML =
-        '<p class="parent-state">There are no current announcements for this student.</p>';
-      return;
-    }
-    container.replaceChildren(
-      ...visible.map((announcement) => {
-        const article = document.createElement("article");
-        article.className = "parent-announcement";
-        article.dataset.status = ["Important", "Urgent"].includes(
-          announcement.status,
-        )
-          ? announcement.status
-          : "Normal";
-        const title = document.createElement("h4");
-        title.textContent = announcement.title || "Announcement";
-        const message = document.createElement("p");
-        message.textContent = announcement.message || "";
-        const meta = document.createElement("div");
-        meta.className = "parent-announcement-meta";
-        meta.textContent = `${announcement.status || "Normal"} · ${announcement.created_at ? new Date(announcement.created_at).toLocaleDateString() : ""}`;
-        article.append(title, message, meta);
-        return article;
-      }),
-    );
-  } catch (error) {
-    if (requestId !== parentAnnouncementRequestId) return;
-    console.error("Could not load parent announcements:", error);
-    container.innerHTML =
-      '<p class="parent-state">Announcements could not be loaded. Refresh the page or contact the school.</p>';
-  } finally {
-    if (requestId === parentAnnouncementRequestId)
-      container.setAttribute("aria-busy", "false");
-  }
-}
-
-function isParentAnnouncementVisible(announcement) {
-  const audiences = String(announcement?.target_audience || "")
-    .split(",")
-    .map((item) => item.trim().toLowerCase().replace(/s$/, ""));
-  return audiences.some((audience) =>
-    ["all", "everyone", "student", "parent"].includes(audience),
-  );
 }
 
 function setParentStudentPhoto(shell, photoUrl, name) {

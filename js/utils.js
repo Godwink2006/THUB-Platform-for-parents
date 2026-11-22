@@ -170,6 +170,7 @@ const ADMIN_ACCOUNTANT_PAGES = [
 const PARENT_ONLY_PAGES = [
   "parent-dashboard.html",
   "parent-academics.html",
+  "parent-announcements.html",
   "parent-records.html",
   "parent-settings.html",
   "my-profile.html",
@@ -472,6 +473,23 @@ async function checkPageAccess() {
     return;
   }
 
+  // The parent dashboard can use the locally stored Supabase session for its
+  // first paint; parent-dashboard.js verifies the user and role in the background.
+  if (currentPage === "parent-dashboard.html") {
+    try {
+      const {
+        data: { session },
+        error,
+      } = await window.supabaseClient.auth.getSession();
+      document.documentElement.style.visibility = "";
+      if (error || !session?.user) await window.forceLogout();
+    } catch (error) {
+      console.warn("Could not check the parent dashboard session:", error);
+      await window.forceLogout();
+    }
+    return;
+  }
+
   const authCtx = await window.getAuthContext();
   const user = authCtx?.user;
   const profile = authCtx?.profile;
@@ -726,6 +744,7 @@ window.addEventListener("pageshow", async (event) => {
   const path = window.location.pathname.toLowerCase();
   const isLogin =
     path.endsWith("index.html") || path === "/" || path.endsWith("/login.html");
+  const isParentDashboard = path.endsWith("parent-dashboard.html");
 
   if (!window.supabaseClient) {
     console.error("Supabase client not initialized in window.supabaseClient");
@@ -734,17 +753,19 @@ window.addEventListener("pageshow", async (event) => {
     return;
   }
 
-  const authCtx = await window.getAuthContext();
-  const user = authCtx?.user;
+  if (!isParentDashboard) {
+    const authCtx = await window.getAuthContext();
+    const user = authCtx?.user;
 
-  if (!isLogin && !user) {
-    console.warn("Session expired or invalid user. Redirecting to login...");
-    await window.supabaseClient.auth.signOut();
-    window.clearAuthContext?.();
-    localStorage.clear();
-    sessionStorage.clear();
-    window.location.replace("/index.html");
-    return;
+    if (!isLogin && !user) {
+      console.warn("Session expired or invalid user. Redirecting to login...");
+      await window.supabaseClient.auth.signOut();
+      window.clearAuthContext?.();
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.replace("/index.html");
+      return;
+    }
   }
 
   window.supabaseClient.auth.onAuthStateChange(async (event, session) => {

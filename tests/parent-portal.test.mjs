@@ -40,9 +40,9 @@ async function loadParentRecordHelpers() {
   return context.helpers;
 }
 
-test("parent dashboard shows announcements for parents, students, and everyone only", async () => {
+test("parent announcements show parent, student, and everyone audiences only", async () => {
   const source = await readFile(
-    path.join(projectRoot, "js", "parent-dashboard.js"),
+    path.join(projectRoot, "js", "parent-announcements.js"),
     "utf8",
   );
   const context = vm.createContext({ document: { addEventListener() {} } });
