@@ -1,7 +1,7 @@
 {
   "name": "High School Management System",
   "short_name": "T-HUB",
-  "start_url": "/html/dashboard.html",
+  "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
