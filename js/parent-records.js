@@ -41,15 +41,6 @@ async function initializeParentRecords() {
     if (active) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
-  document.querySelectorAll("[data-record-view]").forEach((link) => {
-    link.classList.toggle(
-      "is-active",
-      link.dataset.recordView === parentRecordState.view,
-    );
-    if (link.dataset.recordView === parentRecordState.view)
-      link.setAttribute("aria-current", "page");
-    else link.removeAttribute("aria-current");
-  });
   document.getElementById("recordViewTitle").textContent = {
     fees: "Fees & payments",
     attendance: "Attendance",
@@ -140,26 +131,15 @@ async function initializeParentRecords() {
     await loadParentRecordData(client, selectedStudentId, student);
     document.getElementById("recordFilters").hidden = false;
     buildParentRecordFilters();
-    const applyFiltersButton = document.getElementById(
-      "applyParentRecordFilters",
-    );
-    const actionLabel =
-      parentRecordState.view === "timetable"
-        ? "View timetable"
-        : `View ${parentRecordState.view === "fees" ? "fees and payments" : parentRecordState.view}`;
-    if (applyFiltersButton) {
-      applyFiltersButton.innerHTML = `<i class="fa-solid fa-filter" aria-hidden="true"></i> ${parentEscape(actionLabel)}`;
-      applyFiltersButton.addEventListener("click", renderParentRecords);
-    }
-    const prompt =
-      parentRecordState.view === "timetable"
-        ? "Choose a day if you want to narrow the timetable, then select View timetable."
-        : `Choose your filters, then select ${actionLabel}.`;
-    content.setAttribute("aria-busy", "false");
-    content.innerHTML = `<p class="parent-state">${parentEscape(prompt)}</p>`;
+    document
+      .querySelectorAll("#recordFilters select")
+      .forEach((select) =>
+        select.addEventListener("change", renderParentRecords),
+      );
+    renderParentRecords();
   } catch (error) {
     showParentRecordsMessage(
-      "Unable to load student records at this time. Please try again later or contact school administration.",
+      "Unable to load this information at this time. Please try again later or contact school administration.",
       true,
     );
   }
@@ -597,21 +577,28 @@ function buildParentRecordFilters() {
         return index < 0 ? days.length : index;
       };
 
-      const uniqueDays = [
-        ...new Set(
-          (parentRecordState.timetableLessons || [])
-            .map((lesson) => lesson.day_of_week)
-            .filter(Boolean),
-        ),
-      ].sort((a, b) => dayRank(a) - dayRank(b));
+      const daysByKey = new Map();
+      (parentRecordState.timetableLessons || [])
+        .map((lesson) => String(lesson.day_of_week || "").trim())
+        .filter(Boolean)
+        .forEach((day) => {
+          const key = normalizedDay(day);
+          if (!daysByKey.has(key)) {
+            daysByKey.set(
+              key,
+              days.find((knownDay) => normalizedDay(knownDay) === key) || day,
+            );
+          }
+        });
+      const uniqueDays = [...daysByKey.values()].sort((a, b) =>
+        dayRank(a) - dayRank(b),
+      );
 
       daySelect.replaceChildren(new Option("All days", ""));
       uniqueDays.forEach((day) => {
-        daySelect.add(new Option(day, day));
+        daySelect.add(new Option(day, normalizedDay(day)));
       });
-      if (uniqueDays.includes(selected)) {
-        daySelect.value = selected;
-      }
+      daySelect.value = normalizedDay(selected);
     }
     return;
   }
@@ -668,34 +655,40 @@ function buildParentRecordFilters() {
       const periodNumber =
         idKey === "periodId" ? getAssessmentPeriodNumber(row[labelKey]) : null;
       if (
-        row[idKey] &&
-        !(idKey === "periodId" && periodNumber !== null && (periodNumber < 1 || periodNumber > 6))
-      )
-        options.set(
-          String(row[idKey]),
-          (idKey === "periodId"
-            ? getAssessmentPeriodLabel(row[labelKey])
-            : row[labelKey]) ||
-            (idKey === "schoolId"
-              ? `School ${String(row[idKey]).slice(0, 8)}`
-              : "Record"),
-        );
+        !row[idKey] ||
+        (idKey === "periodId" && periodNumber !== null && (periodNumber < 1 || periodNumber > 6))
+      ) return;
+
+      const label =
+        (idKey === "periodId"
+          ? getAssessmentPeriodLabel(row[labelKey])
+          : row[labelKey]) ||
+        (idKey === "schoolId"
+          ? `School ${String(row[idKey]).slice(0, 8)}`
+          : "Record");
+      const key = normalizeParentRecordFilterValue(label);
+      if (!options.has(key)) options.set(key, { label, ids: new Set() });
+      options.get(key).ids.add(String(row[idKey]));
     });
     select.replaceChildren(new Option(defaultLabel, ""));
     [...options.entries()]
       .sort((a, b) => {
         if (idKey === "periodId") {
-          const numberA = getAssessmentPeriodNumber(a[1]);
-          const numberB = getAssessmentPeriodNumber(b[1]);
+          const numberA = getAssessmentPeriodNumber(a[1].label);
+          const numberB = getAssessmentPeriodNumber(b[1].label);
           if (numberA !== null && numberB !== null) return numberA - numberB;
           if (numberA !== null) return -1;
           if (numberB !== null) return 1;
         }
-        return a[1].localeCompare(b[1], undefined, { sensitivity: "base" });
+        return a[1].label.localeCompare(b[1].label, undefined, { sensitivity: "base" });
       })
       .slice(0, idKey === "periodId" ? 6 : undefined)
-      .forEach(([id, label]) => select.add(new Option(label, id)));
-    if (options.has(selected)) select.value = selected;
+      .forEach(([key, option]) =>
+        select.add(new Option(option.label, JSON.stringify([...option.ids]))),
+      );
+    if ([...select.options].some((option) => option.value === selected)) {
+      select.value = selected;
+    }
   });
 }
 
@@ -714,19 +707,29 @@ function renderParentRecords() {
         ? parentRecordState.attendance
         : parentRecordState.grades;
   const filters = {
-    schoolId: document.getElementById("recordSchoolFilter").value,
-    yearId: document.getElementById("recordYearFilter").value,
-    classId: document.getElementById("recordClassFilter").value,
+    schoolId: parseParentRecordFilterIds(
+      document.getElementById("recordSchoolFilter").value,
+    ),
+    yearId: parseParentRecordFilterIds(
+      document.getElementById("recordYearFilter").value,
+    ),
+    classId: parseParentRecordFilterIds(
+      document.getElementById("recordClassFilter").value,
+    ),
     semesterNumber: Number(
       document.getElementById("recordTermFilter").value || 0,
     ),
     periodId:
       type === "grades" || type === "attendance"
-        ? document.getElementById("recordPeriodFilter").value
+        ? parseParentRecordFilterIds(
+            document.getElementById("recordPeriodFilter").value,
+          )
         : "",
     subjectId:
       type !== "fees"
-        ? document.getElementById("recordSubjectFilter").value
+        ? parseParentRecordFilterIds(
+            document.getElementById("recordSubjectFilter").value,
+          )
         : "",
   };
   const visible = rows.filter((row) => {
@@ -865,7 +868,7 @@ function renderParentTimetable() {
     })
     .join("");
 
-  return `${summary}<div class="parent-table-container"><table>
+  return `${summary}<div class="parent-table-container"><table class="parent-timetable-table">
     <thead>
       <tr>
         <th>Time</th>
@@ -879,11 +882,31 @@ function renderParentTimetable() {
 function matchesParentRecordFilters(context, filters) {
   return Object.entries(filters).every(([key, value]) => {
     if (!value) return true;
+    if (Array.isArray(value)) {
+      return !value.length || value.includes(String(context[key] || ""));
+    }
     if (key === "semesterNumber") {
       return getParentSemesterNumber(context.termName) === value;
     }
     return String(context[key] || "") === value;
   });
+}
+
+function parseParentRecordFilterIds(value) {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    return [];
+  }
+}
+
+function normalizeParentRecordFilterValue(value) {
+  return String(value || "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLocaleLowerCase();
 }
 
 function getParentSemesterNumber(termName) {

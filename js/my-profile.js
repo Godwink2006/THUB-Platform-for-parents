@@ -9,6 +9,14 @@ const DEFAULT_AVATAR =
 let currentProfileData = null;
 let myProfileDetailsReadOnly = false;
 
+function setProfileSaveButtonSaving(isSaving) {
+  const saveButton = document.getElementById("saveProfileInfo");
+  const label = saveButton?.querySelector("[data-save-label]");
+  if (!saveButton || !label) return;
+  saveButton.disabled = isSaving;
+  label.textContent = isSaving ? "Saving…" : "Save Changes";
+}
+
 function getMyProfileErrorMessage(error, context = "profile", action = "update") {
   const code = String(error?.code || "").toLowerCase();
   const status = Number(error?.status || error?.statusCode || 0);
@@ -225,8 +233,7 @@ async function handleUpdateProfile(event) {
   }
 
   if (saveBtn) {
-    saveBtn.disabled = true;
-    saveBtn.textContent = "Saving...";
+    setProfileSaveButtonSaving(true);
   }
 
   let uploadedAvatarPath = null;
@@ -324,10 +331,7 @@ async function handleUpdateProfile(event) {
     console.error("My Profile save error:", err);
     showToast(message, "error");
   } finally {
-    if (saveBtn) {
-      saveBtn.disabled = false;
-      saveBtn.textContent = "Save Changes";
-    }
+    setProfileSaveButtonSaving(false);
   }
 }
 

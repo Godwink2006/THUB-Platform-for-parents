@@ -473,9 +473,15 @@ async function checkPageAccess() {
     return;
   }
 
-  // The parent dashboard can use the locally stored Supabase session for its
-  // first paint; parent-dashboard.js verifies the user and role in the background.
-  if (currentPage === "parent-dashboard.html") {
+  // These parent pages use the locally stored session for their first paint;
+  // each page script verifies the user and role before loading parent data.
+  if (
+    [
+      "parent-dashboard.html",
+      "parent-announcements.html",
+      "parent-settings.html",
+    ].includes(currentPage)
+  ) {
     try {
       const {
         data: { session },
@@ -744,7 +750,11 @@ window.addEventListener("pageshow", async (event) => {
   const path = window.location.pathname.toLowerCase();
   const isLogin =
     path.endsWith("index.html") || path === "/" || path.endsWith("/login.html");
-  const isParentDashboard = path.endsWith("parent-dashboard.html");
+  const isFastParentPage = [
+    "parent-dashboard.html",
+    "parent-announcements.html",
+    "parent-settings.html",
+  ].some((page) => path.endsWith(page));
 
   if (!window.supabaseClient) {
     console.error("Supabase client not initialized in window.supabaseClient");
@@ -753,7 +763,7 @@ window.addEventListener("pageshow", async (event) => {
     return;
   }
 
-  if (!isParentDashboard) {
+  if (!isFastParentPage) {
     const authCtx = await window.getAuthContext();
     const user = authCtx?.user;
 

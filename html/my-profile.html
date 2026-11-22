@@ -44,7 +44,6 @@
     <section class="my-profiles-page" id="myProfile">
       <div class="page-header">
         <h2>My Profile</h2>
-        <p>Manage profile information.</p>
       </div>
 
       <form id="myProfileForm" class="my-profiles-form">
@@ -143,7 +142,8 @@
               data-student-status="<%= studentStatusFromDB %>"
             >
               <button type="submit" id="saveProfileInfo" class="save-btn">
-                Save Changes
+                <i class="fa-solid fa-floppy-disk" aria-hidden="true"></i>
+                <span data-save-label>Save Changes</span>
               </button>
             </div>
           </div>

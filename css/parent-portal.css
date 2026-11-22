@@ -1876,7 +1876,7 @@ body.parent-portal {
 }
 
 .parent-portal .parent-record-filters {
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .parent-portal .parent-record-content {
@@ -2462,4 +2462,177 @@ body.app-dark.parent-portal .parent-setting-signout .parent-setting-icon {
 
 body.app-dark.parent-portal .parent-state.is-error {
   color: #fca5a5 !important;
+}
+
+body.app-dark.parent-portal .parent-settings-list .parent-setting-row {
+  background: #222 !important;
+  border-color: #333 !important;
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal .parent-settings-list a.parent-setting-row:hover {
+  background: #333 !important;
+}
+
+body.app-dark.parent-portal .parent-setting-copy strong {
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal .parent-setting-copy small {
+  color: #bbb !important;
+}
+
+body.app-dark.parent-portal .parent-setting-chevron {
+  color: #888 !important;
+}
+
+body.app-dark.parent-portal .parent-setting-icon {
+  background: #333 !important;
+  color: #60a5fa !important;
+}
+
+body.app-dark.parent-portal .parent-setting-signout .parent-setting-icon {
+  background: #3a2528 !important;
+  color: #fca5a5 !important;
+}
+
+body.app-dark.parent-portal .parent-signout-dialog-icon {
+  background: #3a2528 !important;
+  color: #fca5a5 !important;
+}
+
+body.app-dark.parent-portal .parent-signout-dialog-icon i {
+  color: #fca5a5 !important;
+}
+
+body.app-dark.parent-portal .avatar-upload-actions .upload-btn {
+  background: #333 !important;
+  border-color: #555 !important;
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal .avatar-upload-actions .upload-btn:hover {
+  background: #444 !important;
+  border-color: #666 !important;
+}
+
+body.app-dark.parent-portal .my-profiles-form .save-btn,
+body.app-dark.parent-portal .my-profiles-form .savepassword-btn {
+  background: #2563eb !important;
+  border: 1px solid #2563eb !important;
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal .my-profiles-form .save-btn:hover,
+body.app-dark.parent-portal .my-profiles-form .savepassword-btn:hover {
+  background: #1d4ed8 !important;
+  border-color: #1d4ed8 !important;
+}
+
+body.app-dark.parent-portal .my-profiles-form .cancel-btn {
+  background: #333 !important;
+  border: 1px solid #555 !important;
+  color: #eee !important;
+}
+
+body.app-dark.parent-portal .parent-record-content .status-success {
+  background: #183324 !important;
+  color: #86efac !important;
+}
+
+body.app-dark.parent-portal .parent-record-content .status-danger {
+  background: #3a1f22 !important;
+  color: #fca5a5 !important;
+}
+
+body.app-dark.parent-portal .parent-record-content .status-warning {
+  background: #3a2d15 !important;
+  color: #fcd34d !important;
+}
+
+body.app-dark.parent-portal .parent-record-content .status-info {
+  background: #1e2b42 !important;
+  color: #93c5fd !important;
+}
+
+body.app-dark.parent-portal .parent-record-content .status-neutral {
+  background: #333 !important;
+  color: #ccc !important;
+}
+
+body.app-dark.parent-portal.parent-auth-checking {
+  background: #111 !important;
+}
+
+body.app-dark.parent-portal.parent-auth-checking .parent-auth-loading {
+  background: #111 !important;
+  color: #eee !important;
+}
+
+body.app-dark.parent-portal .parent-auth-loading__content p {
+  color: #ccc !important;
+}
+
+body.app-dark.parent-portal .parent-auth-spinner {
+  border-color: #444;
+  border-top-color: #60a5fa;
+}
+
+body.app-dark.parent-portal .parent-timetable-summary {
+  color: #ccc;
+}
+
+body.app-dark.parent-portal .parent-timetable-summary > strong {
+  color: #fff !important;
+}
+
+body.app-dark.parent-portal .parent-timetable-class-teacher,
+body.app-dark.parent-portal .parent-record-author .parent-class-teacher-badge {
+  background: #263b32 !important;
+  border-color: #3b5b49 !important;
+  color: #a7f3d0 !important;
+}
+
+body.app-dark.parent-portal .parent-timetable-class-teacher > span,
+body.app-dark.parent-portal .parent-timetable-class-teacher strong {
+  color: #a7f3d0 !important;
+}
+
+body.app-dark.parent-portal .parent-record-content .parent-timetable-break {
+  background: #1d3e28 !important;
+  color: #bbf7d0 !important;
+}
+
+body.app-dark.parent-portal .parent-timetable-table {
+  min-width: 760px;
+  table-layout: fixed;
+}
+
+body.app-dark.parent-portal .parent-timetable-table th,
+body.app-dark.parent-portal .parent-timetable-table td {
+  background-color: #222;
+  border-color: #444;
+}
+
+body.app-dark.parent-portal .parent-timetable-table th {
+  background-color: #333;
+  color: #ddd !important;
+}
+
+body.app-dark.parent-portal .parent-timetable-table th:first-child,
+body.app-dark.parent-portal .parent-timetable-table td:first-child {
+  width: 112px;
+}
+
+body.app-dark.parent-portal .parent-timetable-table th:not(:first-child),
+body.app-dark.parent-portal .parent-timetable-table td:not(:first-child) {
+  width: 128px;
+}
+
+body.app-dark.parent-portal .parent-timetable-table .table-muted {
+  color: #888 !important;
+}
+
+body.app-dark.parent-portal .parent-table-container {
+  scrollbar-color: #666 #222;
 }
