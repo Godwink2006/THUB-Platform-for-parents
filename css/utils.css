@@ -63,7 +63,7 @@ tbody tr:hover {
 
 @media screen and (max-width: 768px) {
 .toast{
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
   .menu-toggle {
@@ -77,7 +77,7 @@ tbody tr:hover {
     color: #ffffff;
     border: none;
     padding: 10px 14px;
-    border-radius: 6px;
+    border-radius: 20px;
     font-size: 20px;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -175,7 +175,7 @@ tbody tr:hover {
 
   .menu li a,
   .sidebar-school-name {
-    border-radius: 10px;
+    border-radius: 20px;
   }
 }
 

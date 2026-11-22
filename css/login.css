@@ -49,7 +49,7 @@ body.login-auth-checking .login-session-check {
 .login-session-check__content img {
   width: 92px;
   height: 92px;
-  border-radius: 22px;
+  border-radius: 20px;
 }
 
 .login-session-check__content h1 {
@@ -345,7 +345,7 @@ i {
   .form-group input,
   .login-card,
   .home-screen-guide {
-    border-radius: 10px;
+    border-radius: 20px;
   }
 
   .login-container {
