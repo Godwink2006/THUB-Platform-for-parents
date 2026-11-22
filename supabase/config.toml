@@ -4,6 +4,10 @@
 # working directory name when running `supabase init`.
 project_id = "T-HUB-Platform"
 
+[auth]
+site_url = "https://thub-platform-for-parents.vercel.app"
+additional_redirect_urls = ["https://thub-platform-for-parents.vercel.app/html/parent-set-password.html"]
+
 [functions.send-push-notification]
 verify_jwt = false
 
